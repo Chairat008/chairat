@@ -1,0 +1,108 @@
+/* ========================================================
+ * File     : monster.css
+ * Project  : Monster AR
+ * Purpose  : ดีไซน์มอนสเตอร์ตัวอย่าง "Sparku"
+ *            (มอนสเตอร์ไฟฟ้าต้นฉบับ ไม่ใช่ตัวละครลิขสิทธิ์)
+ * ======================================================== */
+
+.monster-preview {
+  position: absolute;
+  left: 50%;
+  top: 62%;
+  transform: translate(-50%, -50%);
+  z-index: var(--z-hud);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-xs);
+  animation: monster-bob 2.4s ease-in-out infinite;
+}
+
+.monster-body {
+  position: relative;
+  width: 90px;
+  height: 78px;
+  background: linear-gradient(160deg, #FFD54F 0%, #FFC93C 60%, #F5A623 100%);
+  border: 3px solid var(--color-ink);
+  border-radius: 50% 50% 46% 46%;
+}
+
+.monster-ear {
+  position: absolute;
+  top: -14px;
+  width: 20px;
+  height: 22px;
+  background: #FFD54F;
+  border: 3px solid var(--color-ink);
+  border-radius: 50% 50% 20% 20%;
+}
+
+.monster-ear.left { left: 6px; transform: rotate(-12deg); }
+.monster-ear.right { right: 6px; transform: rotate(12deg); }
+
+.monster-antenna {
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 3px;
+  height: 20px;
+  background: var(--color-ink);
+}
+
+.monster-antenna::after {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 12px;
+  height: 12px;
+  background: var(--color-teal);
+  border: 2px solid var(--color-ink);
+  clip-path: polygon(50% 0%, 100% 40%, 60% 40%, 100% 100%, 0% 55%, 40% 55%);
+}
+
+.monster-eye {
+  position: absolute;
+  top: 30px;
+  width: 12px;
+  height: 14px;
+  background: var(--color-ink);
+  border-radius: 50%;
+}
+
+.monster-eye.left { left: 20px; }
+.monster-eye.right { right: 20px; }
+
+.monster-eye::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 4px;
+  height: 4px;
+  background: #fff;
+  border-radius: 50%;
+}
+
+.monster-label {
+  font-family: var(--font-display);
+  font-size: 9px;
+  color: var(--color-cream);
+  text-shadow: 2px 2px 0 var(--color-ink);
+}
+
+.monster-rarity {
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  color: var(--color-common);
+  background: rgba(0, 0, 0, 0.45);
+  padding: 1px 10px;
+  border-radius: var(--radius-pill);
+}
+
+@keyframes monster-bob {
+  0%, 100% { transform: translate(-50%, -50%) translateY(0); }
+  50%      { transform: translate(-50%, -50%) translateY(-10px); }
+}
