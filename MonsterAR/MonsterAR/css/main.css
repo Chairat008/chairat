@@ -1,0 +1,238 @@
+/* ========================================================
+ * File     : main.css
+ * Project  : Monster AR
+ * Purpose  : โครงสร้างพื้นฐานที่ใช้ร่วมกันทุกหน้า
+ *            (การจัดวาง App Shell, Layer กล้อง, Overlay, Font)
+ * ======================================================== */
+
+@font-face {
+  font-family: 'Press Start 2P';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('https://fonts.gstatic.com/s/pressstart2p/v15/e3t4euO8T-267oIAQAu6jDQyK3nVivM.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'VT323';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('https://fonts.gstatic.com/s/vt323/v17/pxiKyp0ihIEF2isfFJU.woff2') format('woff2');
+}
+
+body {
+  font-family: var(--font-mono);
+  color: var(--color-ink);
+  background: #000;
+}
+
+/* ---- App Shell: กรอบเต็มจอ ที่ทุกหน้าใช้ร่วมกัน ---- */
+#app {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* ---- Layer 0: พื้นหลังกล้อง ---- */
+/* พื้น gradient นี้แสดงเฉพาะตอนกล้องยังไม่พร้อม (loading / ถูกปฏิเสธ) */
+.camera-layer {
+  position: absolute;
+  inset: 0;
+  z-index: var(--z-camera);
+  background:
+    radial-gradient(circle at 30% 20%, rgba(42, 157, 143, 0.25), transparent 55%),
+    radial-gradient(circle at 75% 75%, rgba(230, 57, 70, 0.20), transparent 50%),
+    linear-gradient(160deg, #14201c 0%, #0b0f0e 70%);
+  overflow: hidden;
+}
+
+/* วิดีโอกล้องจริง ที่ camera.js จะแทรกเข้ามา */
+.camera-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* กลับด้านซ้าย-ขวาเหมือนกระจก ให้ผู้เล่นควบคุมมือได้เป็นธรรมชาติ */
+  transform: scaleX(-1);
+}
+
+/* ป้ายแจ้งสถานะกล้อง (กำลังขอสิทธิ์ / ถูกปฏิเสธ) */
+.camera-status {
+  position: absolute;
+  inset: 0;
+  z-index: var(--z-hud);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-md);
+  text-align: center;
+  padding: var(--space-lg);
+}
+
+.camera-status.is-hidden {
+  display: none;
+}
+
+.camera-status-icon {
+  font-size: 40px;
+}
+
+.camera-status-text {
+  font-family: var(--font-mono);
+  font-size: var(--fs-lg);
+  color: var(--color-cream);
+  max-width: 320px;
+}
+
+.camera-retry-btn {
+  font-family: var(--font-display);
+  font-size: var(--fs-xs);
+  color: var(--color-ink);
+  background: var(--color-gold);
+  border: var(--border-thick) solid var(--color-ink);
+  border-radius: var(--radius-pill);
+  padding: 10px 22px;
+  box-shadow: var(--shadow-panel);
+}
+
+.camera-retry-btn:active {
+  transform: translateY(2px);
+  box-shadow: none;
+}
+
+/* ---- Layer 1: Scanline เอฟเฟกต์ ให้ฟีล AR/กล้อง ---- */
+.scanline-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: var(--z-overlay);
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.035) 0px,
+    rgba(255, 255, 255, 0.035) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  mix-blend-mode: overlay;
+}
+
+/* ---- Layer 2: Vignette ขอบมืด ให้ HUD เด่นขึ้น ---- */
+.vignette {
+  position: absolute;
+  inset: 0;
+  z-index: var(--z-overlay);
+  pointer-events: none;
+  box-shadow: inset 0 0 140px 40px rgba(0, 0, 0, 0.55);
+}
+
+/* ---- View Switching (ใช้โดย router.js) ---- */
+.view {
+  position: absolute;
+  inset: 0;
+  z-index: var(--z-hud);
+}
+
+.view.is-hidden {
+  display: none;
+}
+
+/* ---- โครงกลางของหน้าย่อย (Shop, Profile, Monster Box, Settings) ---- */
+.sub-page {
+  height: 100%;
+  padding: var(--space-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  overflow-y: auto;
+}
+
+.sub-page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+}
+
+.back-btn {
+  width: 40px;
+  height: 40px;
+  font-family: var(--font-display);
+  font-size: var(--fs-md);
+  color: var(--color-cream);
+  background: var(--color-ink);
+  border: var(--border-thick) solid var(--color-cream);
+  border-radius: 50%;
+  box-shadow: var(--shadow-panel);
+}
+
+.back-btn:active {
+  transform: translateY(2px);
+  box-shadow: none;
+}
+
+.sub-page-title {
+  font-family: var(--font-display);
+  font-size: var(--fs-sm);
+  color: var(--color-cream);
+  text-shadow: 2px 2px 0 var(--color-ink);
+}
+
+/* ---- กล่องตรวจจับมือ (สร้างโดย uiManager.js) ---- */
+.tracking-box {
+  position: absolute;
+  z-index: var(--z-hud);
+  border: 3px dashed var(--color-gold);
+  border-radius: var(--radius-panel);
+  box-shadow: var(--glow-gold);
+  pointer-events: none;
+  transition: left 0.08s linear, top 0.08s linear;
+}
+
+.tracking-box.is-hidden {
+  display: none;
+}
+
+/* ---- Panel แจ้งท่าทางปัจจุบัน (ฝั่งซ้าย, สร้างโดย uiManager.js) ---- */
+.gesture-panel {
+  position: absolute;
+  left: var(--space-md);
+  bottom: var(--space-xl);
+  z-index: var(--z-hud);
+  background: var(--color-cream);
+  border: var(--border-thick) solid var(--color-ink);
+  border-radius: var(--radius-panel);
+  box-shadow: var(--shadow-panel);
+  padding: var(--space-sm) var(--space-md);
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  min-width: 150px;
+}
+
+.gesture-panel-icon {
+  font-size: 26px;
+}
+
+.gesture-panel-text {
+  font-family: var(--font-display);
+  font-size: 10px;
+  line-height: 1.4;
+}
+
+.gesture-panel-confidence {
+  margin-left: auto;
+  font-family: var(--font-mono);
+  font-size: var(--fs-md);
+  color: var(--color-red-dark);
+}
+/* ---- Utility: กรอบ Panel มาตรฐานทรง Pixel/Retro ---- */
+.panel {
+  background: var(--color-cream);
+  border: var(--border-thick) solid var(--color-ink);
+  border-radius: var(--radius-panel);
+  box-shadow: var(--shadow-panel);
+}

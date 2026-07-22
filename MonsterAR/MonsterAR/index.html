@@ -1,0 +1,220 @@
+<!-- ========================================================
+     File     : index.html
+     Project  : Monster AR
+     Purpose  : หน้า Lobby หลัก — จุดเริ่มต้นของเกม
+                แสดง Player HUD, โลโก้, เมนู, ปุ่ม Play
+     ======================================================== -->
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Monster AR — Lobby</title>
+
+  <link rel="stylesheet" href="css/reset.css" />
+  <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="css/lobby.css" />
+  <link rel="stylesheet" href="css/shop.css" />
+  <link rel="stylesheet" href="css/profile.css" />
+  <link rel="stylesheet" href="css/inventory.css" />
+  <link rel="stylesheet" href="css/monster.css" />
+  <link rel="stylesheet" href="css/game.css" />
+</head>
+<body>
+
+  <div id="app">
+
+    <!-- Layer: พื้นหลังกล้อง (placeholder — camera.js จะแทนที่ด้วย <video> จริง) -->
+    <div class="camera-layer"></div>
+    <div class="scanline-overlay"></div>
+    <div class="vignette"></div>
+    <div class="camera-status is-hidden"></div>
+
+    <!-- ===================== VIEW: LOBBY ===================== -->
+    <section class="view" id="view-lobby">
+
+      <!-- HUD บนสุด -->
+      <header class="hud-top">
+        <div class="player-badge">
+          <div class="avatar">🧑</div>
+          <div class="player-info">
+            <span class="player-name">ASH</span>
+            <span class="level-ribbon">LV. 12</span>
+          </div>
+        </div>
+
+        <div class="stat-cluster">
+          <div class="stat-pill">
+            <span class="stat-icon">💰</span>
+            <span class="stat-value js-money-display">1,250</span>
+          </div>
+          <div class="stat-pill stat-exp">
+            <span class="stat-label">EXP</span>
+            <div class="exp-bar">
+              <div class="exp-fill" style="width: 64%;"></div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- โลโก้เกม -->
+      <div class="logo-badge">
+        <div class="ball-icon"></div>
+        <h1 class="game-logo">MONSTER<span>AR</span></h1>
+      </div>
+
+      <!-- เมนูด้านข้าง -->
+      <nav class="side-menu">
+        <button class="menu-btn menu-shop" data-navigate="view-shop">
+          <span class="menu-icon">🛒</span>SHOP
+        </button>
+        <button class="menu-btn menu-box" data-navigate="view-monsterbox">
+          <span class="menu-icon">📦</span>MONSTER BOX
+        </button>
+        <button class="menu-btn menu-profile" data-navigate="view-profile">
+          <span class="menu-icon">👤</span>PROFILE
+        </button>
+        <button class="menu-btn menu-settings" data-navigate="view-settings">
+          <span class="menu-icon">⚙</span>SETTINGS
+        </button>
+      </nav>
+
+      <!-- มอนสเตอร์ตัวอย่าง (ต้นแบบดั้งเดิม ไม่ใช่ Pikachu) -->
+      <div class="monster-preview">
+        <div class="monster-body">
+          <div class="monster-ear left"></div>
+          <div class="monster-ear right"></div>
+          <div class="monster-antenna"></div>
+          <div class="monster-eye left"></div>
+          <div class="monster-eye right"></div>
+        </div>
+        <span class="monster-label">SPARKU</span>
+        <span class="monster-rarity">COMMON</span>
+      </div>
+
+      <!-- ปุ่ม Play (ระบบเกมจริงยังไม่เปิดใช้งาน) -->
+      <div class="play-dock">
+        <button class="play-btn" id="playBtn">
+          <span class="play-ball"></span>
+          <span class="play-label">PLAY</span>
+        </button>
+        <p class="play-hint">✊ กำมือค้างเพื่อเริ่ม</p>
+      </div>
+
+    </section>
+
+    <!-- ===================== VIEW: GAME (Select + Battle) ===================== -->
+    <section class="view is-hidden" id="view-game">
+      <div id="encounterSelect"></div>
+      <div id="encounterBattle" class="is-hidden"></div>
+    </section>
+
+    <!-- ===================== VIEW: SHOP ===================== -->
+    <section class="view is-hidden" id="view-shop">
+      <div class="sub-page">
+        <header class="sub-page-header">
+          <button class="back-btn" data-navigate="view-lobby">←</button>
+          <h2 class="sub-page-title">SHOP</h2>
+          <div class="stat-pill">
+            <span class="stat-icon">💰</span>
+            <span class="stat-value js-money-display">1,250</span>
+          </div>
+        </header>
+
+        <div class="shop-grid">
+          <div class="shop-item panel">
+            <div class="shop-item-icon">⚪</div>
+            <div class="shop-item-name">Ball</div>
+            <div class="shop-item-price">💰 50</div>
+            <button class="buy-btn">ซื้อ</button>
+          </div>
+          <div class="shop-item panel">
+            <div class="shop-item-icon">🧪</div>
+            <div class="shop-item-name">Potion</div>
+            <div class="shop-item-price">💰 30</div>
+            <button class="buy-btn">ซื้อ</button>
+          </div>
+          <div class="shop-item panel">
+            <div class="shop-item-icon">📦</div>
+            <div class="shop-item-name">Item Box</div>
+            <div class="shop-item-price">💰 120</div>
+            <button class="buy-btn">ซื้อ</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== VIEW: PROFILE ===================== -->
+    <section class="view is-hidden" id="view-profile">
+      <div class="sub-page">
+        <header class="sub-page-header">
+          <button class="back-btn" data-navigate="view-lobby">←</button>
+          <h2 class="sub-page-title">PROFILE</h2>
+          <div></div>
+        </header>
+
+        <div class="panel profile-card">
+          <div class="avatar profile-avatar">🧑</div>
+          <h3 class="profile-name">ASH</h3>
+          <ul class="profile-stat-list">
+            <li><span>Level</span><span id="profileLevel">12</span></li>
+            <li><span>Money</span><span id="profileMoney" class="js-money-display">1,250</span></li>
+            <li><span>EXP</span><span id="profileExp">64</span></li>
+            <li><span>Monster Count</span><span id="profileMonsterCount">0</span></li>
+            <li><span>Play Time</span><span>02:14:30</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== VIEW: MONSTER BOX ===================== -->
+    <section class="view is-hidden" id="view-monsterbox">
+      <div class="sub-page">
+        <header class="sub-page-header">
+          <button class="back-btn" data-navigate="view-lobby">←</button>
+          <h2 class="sub-page-title">MONSTER BOX</h2>
+          <div></div>
+        </header>
+
+        <div id="monsterBoxContent">
+          <div class="monster-empty panel">
+            <p>ยังไม่มีมอนสเตอร์ในกล่อง</p>
+            <p class="monster-empty-hint">ไปที่ PLAY เพื่อจับมอนสเตอร์ตัวแรก</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== VIEW: SETTINGS ===================== -->
+    <section class="view is-hidden" id="view-settings">
+      <div class="sub-page">
+        <header class="sub-page-header">
+          <button class="back-btn" data-navigate="view-lobby">←</button>
+          <h2 class="sub-page-title">SETTINGS</h2>
+          <div></div>
+        </header>
+
+        <div class="panel settings-list">
+          <div class="settings-row">
+            <span>Debug Mode</span>
+            <input type="checkbox" id="debugModeToggle" />
+          </div>
+          <div class="settings-row">
+            <span>Sound</span>
+            <input type="checkbox" checked />
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <script src="js/camera.js"></script>
+  <script type="module" src="js/app.js"></script>
+  <script type="module" src="js/gameController.js"></script>
+  <script type="module" src="js/hudSync.js"></script>
+  <script src="js/router.js"></script>
+  <script src="js/lobby-demo.js"></script>
+</body>
+</html>

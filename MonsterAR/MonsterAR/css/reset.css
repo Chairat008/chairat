@@ -1,0 +1,50 @@
+/* ========================================================
+ * File     : reset.css
+ * Project  : Monster AR
+ * Purpose  : ล้างค่า default ของเบราว์เซอร์ทั้งหมด
+ *            เพื่อให้ UI แสดงผลเหมือนกันทุกเบราว์เซอร์
+ * ======================================================== */
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  overflow: hidden; /* กันหน้าจอเลื่อน เพราะเกมเป็น full-screen overlay */
+}
+
+body {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-font-smoothing: antialiased;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  cursor: pointer;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
